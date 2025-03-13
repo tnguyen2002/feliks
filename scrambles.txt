@@ -1,0 +1,11 @@
+To scramble: Green in front yellow on top
+F' L' U' F2 R2 B2 R2 U' F2 D L2 B2 L2 D' B U2 R B2 D' L B'
+
+Photos: 
+Not yellow or white, yellow on top
+yellow: blue on top
+white: green on top
+
+
+D2 L' U2 B2 F2 L2 U2 F2 D B2 U' L2 R' D B F' U' F' L'
+
