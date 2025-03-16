@@ -82,9 +82,9 @@ def classify_color(image, i, j, RUBIKS_COLORS):
     
     # Compute the average color
     median_hsv = np.median(image, axis=(0, 1)) # median instead
-    print("i, j", i , j)
+    # print("i, j", i , j)
     h, s, v = median_hsv
-    print(h,s,v)
+    # print(h,s,v)
     
     if s <= 85 and v >= 140:  # Low saturation, high brightness
         return "white"
@@ -171,9 +171,11 @@ def process_color_images(directory_path):
     # Iterate through all files in the directory
     for filename in os.listdir(directory_path):  # Ensure only PNG files are processed
         color_name = filename.split(".")[0] # Extract the name before .png
+        
         # detected_colors = imageToColors(directory_path + filename)  # Process the image
         image_path = directory_path + filename
         image = cv2.imread(image_path)
+        image = remove(image)
         image = image[:, :, :3] 
         edges = canny_edge_detector(image)
         # cv2_display_image(edges)
@@ -208,6 +210,7 @@ def process_color_images(directory_path):
         top_left, bottom_right = corners[i]
         image_path = directory_path + filename
         image = cv2.imread(image_path)
+        image = remove(image)
         image = image[:, :, :3] 
         color_names = split_and_kmeans(image, top_left, bottom_right, RUBIKS_COLORS)
         color_faces[color_name] = color_names

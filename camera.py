@@ -4,6 +4,7 @@ from vision import process_color_images
 from utils import colorToLetter
 import twophase.solver  as sv
 
+
 def capture_images():
     # Open the camera
     cap = cv2.VideoCapture(0)
@@ -36,18 +37,18 @@ def capture_images():
         
         # Determine cropping region
         height, width, _ = frame.shape
-        square_size = min(width, height) // 1
+        square_size = min(width, height) // 2
         top_left_x = (width - square_size) // 2
         top_left_y = (height - square_size) // 2
         bottom_right_x = (width + square_size) // 2
         bottom_right_y = (height + square_size) // 2
         
         # Crop the region inside the square
-        cropped_frame = frame[top_left_y:bottom_right_y, top_left_x:bottom_right_x]
+        # cropped_frame = frame[top_left_y:bottom_right_y, top_left_x:bottom_right_x]
         
         # Save the cropped image
         img_filename = os.path.join(save_directory, f"{image_names[img_count]}.jpg")
-        cv2.imwrite(img_filename, cropped_frame)
+        cv2.imwrite(img_filename, frame)
         # print(f"Saved {img_filename}")
         
         # Display instruction on the camera feed
