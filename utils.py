@@ -1,13 +1,8 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.cluster import KMeans
-from skimage import io
-from PIL import Image, ImageOps
-import math
 import os
 from ciede2000 import CIEDE2000
-
 
 def cv2_display_image(img):
     cv2.imshow('image', img)
@@ -90,6 +85,7 @@ def closest_rubiks_color(median_bgr, RUBIKS_COLORS):
             closest_color = name
 
     return closest_color
+
 def closest_rubiks_color_hsv_range(median_hsv, RUBIKS_COLORS):
     h, s, v = median_hsv
     min_distance = float("inf")
@@ -103,24 +99,19 @@ def closest_rubiks_color_hsv_range(median_hsv, RUBIKS_COLORS):
 
     return closest_color
 
-
 def classify_color(median_hsv, median_bgr, median_lab, i, j, RUBIKS_COLORS):
     closest_color = closest_rubiks_color(median_bgr, RUBIKS_COLORS)
     return closest_color
     
 
-
-
 def getColors(base_path="images/colors"):
     RUBIKS_COLORS = {}
 
-    # Iterate through each subdirectory (color category)
     for color in os.listdir(base_path):
         color_path = os.path.join(base_path, color)
-        if os.path.isdir(color_path):  # Ensure it's a directory
+        if os.path.isdir(color_path):
             color_values = []
             
-            # Read all images in the subdirectory
             for file in os.listdir(color_path):
                 img_path = os.path.join(color_path, file)
                 img = cv2.imread(img_path)
@@ -129,7 +120,7 @@ def getColors(base_path="images/colors"):
                     avg_hsv= img.mean(axis=(0, 1)) 
                     color_values.append(avg_hsv)  
 
-            if color_values:  # Ensure there are images
+            if color_values:
                 RUBIKS_COLORS[color] = color_values 
 
     return RUBIKS_COLORS
@@ -144,42 +135,23 @@ def colorToLetter():
         "white": "D"
     }
     return colorToLetter
+
+
 def fixColors(colors):
     for key in colors:
         colors[key][1][1] = key
     return colors
 
 def sortAllSquares(allSquares):
-    # Sort squares by their Y-coordinate to get rows
     allSquares_copy = allSquares[:]
     allSquares_copy.sort(key=lambda sq: sq.centroid[1])  
 
-    # Split into three rows
     rows = [allSquares_copy[i:i+3] for i in range(0, 9, 3)]
 
-    # Sort each row by X-coordinate
     for row in rows:
         row.sort(key=lambda sq: sq.centroid[0])
     return rows
 
-#LAB
-# RUBIKS_COLORS = {
-#     "white": (255, 128, 128),
-#     "yellow": (226, 150, 0),
-#     "red": (136, 208, 195),
-#     "orange": (191, 180, 100),
-#     "blue": (82, 207, 20),
-#     "green": (224, 42, 211)
-# }
-
-   # RUBIKS_COLORS = {
-    #     'red'   : rgb2lab((255, 0, 0)),
-    #     'orange': rgb2lab((255, 145, 0)),
-    #     'blue'  : rgb2lab((0, 0, 255)),
-    #     'green' : rgb2lab((0, 255, 0)),
-    #     'white' : rgb2lab((255, 255, 255)),
-    #     'yellow': rgb2lab((255, 255, 0))
-    #     }
 
 def classify_color_weighted(hsv_value, RUBIKS_COLORS):
     weights = np.array([3.0, 1.0, 1.0])
@@ -212,6 +184,7 @@ def colorsFromSquares(allSquares):
             center_lab = squares[1][1].color_lab
             RUBIKS_COLORS[center] = center_bgr
     print("Rubiks Colors", RUBIKS_COLORS)
+
     for i in range(len(allSquares_sorted)):
         squares = allSquares_sorted[i]
         if(len(squares) > 0):
@@ -226,8 +199,6 @@ def colorsFromSquares(allSquares):
                     color_bgr = square.color_bgr
                     color_lab = square.color_lab
 
-                    print(center, j, k, square.centroid)
-                    # print("color_hsv", color_hsv)
                     classified_color= classify_color(color_hsv, color_bgr, color_lab, j, k, RUBIKS_COLORS)
                     
                     if(j == 1 and k == 1):

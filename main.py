@@ -1,5 +1,3 @@
-
-
 from camera import capture_images
 from vision import process_color_images
 from utils import colorToLetter
