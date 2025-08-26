@@ -16,11 +16,9 @@ It leverages **OpenCV** for:
 - 🔍 **State Reconstruction** — Extracts cube configuration with contour detection.  
 - 🧠 **Solver Engine** — Computes a step-by-step, human-readable solution.  
 
----
 
-## 📱 Demo
+## 📱 [Demo](https://drive.google.com/file/d/1PxF8HhCKiHEwGDhYK_wz2IJOvZ7hBClJ/view?usp=sharing)
 
----
 
 ## 🚀 Getting Started
 
